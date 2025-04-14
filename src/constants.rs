@@ -130,7 +130,7 @@ mod test {
             .map(|n| (n, Fr::get_root_of_unity(2u64.checked_pow(n).unwrap())))
             .filter(|(_n, v)| v.is_some())
             .map(|(n, _v)| n)
-            .last()
+            .next_back()
             .unwrap();
         assert_eq!(max_log2_circuit_size, MAX_LOG2_CIRCUIT_SIZE);
     }
