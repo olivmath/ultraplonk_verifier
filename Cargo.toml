@@ -29,6 +29,10 @@ regex = { version = "1", default-features = false, optional = true }
 log = { version = "0.4.25", optional = true }
 env_logger = { version = "0.11.6", optional = true }
 
+# js
+serde-wasm-bindgen = { version = "0.6.5", optional = true }
+wasm-bindgen = { version = "0.2.100", optional = true }
+
 [dev-dependencies]
 assert_cmd = "2.0.16"
 assert_fs = "1.1.2"
@@ -52,3 +56,8 @@ bins = [
     "dep:log",
     "dep:env_logger"
 ]
+wasm = ["wasm-bindgen", "serde-wasm-bindgen"]
+
+
+[lib]
+crate-type = ["cdylib", "rlib"]

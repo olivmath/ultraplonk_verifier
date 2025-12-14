@@ -25,6 +25,10 @@ mod srs;
 mod types;
 mod utils;
 
+#[cfg(feature = "wasm")]
+pub mod wasm;
+
+
 use crate::{
     key::{read_g2, PreparedVerificationKey, VerificationKey},
     proof::Proof,

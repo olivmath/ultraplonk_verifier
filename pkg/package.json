@@ -1,0 +1,26 @@
+{
+  "name": "olivmath-ultraplonk-zk-verify",
+  "collaborators": [
+    "Lucas Bispo de Oliveira <olivmath@protonmail.com>"
+  ],
+  "description": "I have developed a **functional Proof of Concept (PoC/MVP)** that performs this conversion **natively in node.js (Backend) and in the browser (Frontend)**, allowing proofs to be submitted directly to ZKVerify without manual CLI steps.",
+  "version": "0.2.0",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/olivmath/olivmath-ultraplonk-zk-verify.git"
+  },
+  "files": [
+    "olivmath_ultraplonk_zk_verify_bg.wasm",
+    "olivmath_ultraplonk_zk_verify.js",
+    "olivmath_ultraplonk_zk_verify.d.ts"
+  ],
+  "main": "olivmath_ultraplonk_zk_verify.js",
+  "types": "olivmath_ultraplonk_zk_verify.d.ts",
+  "keywords": [
+    "cryptography",
+    "elliptic-curves",
+    "zkverify",
+    "ultraplonk"
+  ]
+}
