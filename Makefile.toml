@@ -21,22 +21,13 @@ args = ["build", "--no-default-features", "--target", "thumbv7em-none-eabi"]
 command = "cargo"
 args = ["build", "--release"]
 
-[tasks.cli]
-command = "cargo"
-args = ["build", "--release", "--bins", "--features", "bins"]
-
 [tasks.test_lib]
 [tasks.test-lib]
 command = "cargo"
 args = ["test", "--release", "--no-default-features", "--lib"]
 
-[tasks.test_bins]
-[tasks.test-bins]
-command = "cargo"
-args = ["test", "--release", "--test", "*", "--features", "bins"]
-
 [tasks.test]
-dependencies = ["test-lib", "test-bins"]
+dependencies = ["test-lib"]
 # It also performs cargo test --all-features
 
 [tasks.format_inst]
@@ -93,7 +84,7 @@ command = "cargo"
 args = ["udeps", "--all-targets", "--all-features"]
 
 [tasks.ci-common]
-dependencies = ["build", "build-bare-metal", "cli", "test", "clippy", "audit", "udeps"]
+dependencies = ["build", "build-bare-metal", "test", "clippy", "audit", "udeps"]
 
 [tasks.ci]
 dependencies = ["format", "ci-common"]

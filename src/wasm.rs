@@ -16,6 +16,7 @@
 use crate::VerificationKey;
 use hex::encode as hex_encode;
 use wasm_bindgen::prelude::*;
+use alloc::format;
 
 #[wasm_bindgen(js_name = convertProof)]
 pub fn convert_proof(proof_data: &[u8], num_inputs: usize) -> Result<JsValue, JsValue> {
