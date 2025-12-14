@@ -63,4 +63,4 @@ The developed PoC already demonstrates that:
 
 ## How to use
 
-For a backend usage example, see [examples/backend_example.js](./examples/backend_example.js).
+For a backend usage example, see [examples/backend_example.js](./examples/index.js).
