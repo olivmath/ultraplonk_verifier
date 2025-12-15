@@ -25,14 +25,14 @@ pub fn convert_proof(proof_data: &[u8], num_inputs: usize) -> Result<JsValue, Js
     let total_pub_inputs_len = num_inputs * WORD_SIZE;
     if proof_data.len() < total_pub_inputs_len {
         return Err(JsValue::from_str(
-            "Prova muito curta para a quantidade de inputs públicos",
+            "Proof too short for the number of public inputs",
         ));
     }
 
-    // Remove os public inputs (início do vetor)
+    // Remove public inputs (start of the buffer)
     let (_pub_inputs_bytes, proof_without_pubs) = proof_data.split_at(total_pub_inputs_len);
 
-    // Codifica a prova como string hexadecimal
+    // Encode the proof as hex string
     let proof_hex = hex_encode(proof_without_pubs);
 
     Ok(JsValue::from_str(&proof_hex))
@@ -41,7 +41,7 @@ pub fn convert_proof(proof_data: &[u8], num_inputs: usize) -> Result<JsValue, Js
 #[wasm_bindgen(js_name = convertVerificationKey)]
 pub fn convert_verification_key(vk_data: &[u8]) -> Result<JsValue, JsValue> {
     let solidity_bytes = VerificationKey::<()>::try_from(vk_data)
-        .map_err(|e| JsValue::from_str(&format!("Erro ao interpretar VK: {}", e)))?
+        .map_err(|e| JsValue::from_str(&format!("Failed to parse verification key: {}", e)))?
         .as_solidity_bytes();
 
     let hex_string = hex_encode(&solidity_bytes);

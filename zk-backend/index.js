@@ -7,7 +7,7 @@ import path from "path";
 import { fileURLToPath } from "url";
 import { zkVerifySession, ZkVerifyEvents } from "zkverifyjs";
 
-// Corrigindo __dirname no ESM
+// Fixing __dirname in ESM
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
@@ -35,7 +35,7 @@ app.use(
 
 app.use(express.json());
 
-// Global para armazenar função de envio SSE
+// Global to store SSE send function
 let sendSSEMessage = null;
 
 // GET - SSE endpoint
@@ -52,10 +52,10 @@ app.get("/", (req, res) => {
 });
 
 const convertProofAndVkToHex = (proof, vk) => {
-  // Converte a prova usando a função do WebAssembly
-  const convertedProof = ultraplonk.convert_proof(proof, 1); // 1 é o número de inputs públicos
+  // Convert proof using the WebAssembly function
+  const convertedProof = ultraplonk.convert_proof(proof, 1); // 1 is the number of public inputs
 
-  // Converte a chave de verificação
+  // Convert the verification key
   const convertedVk = ultraplonk.convert_verification_key(vk);
 
   return {
@@ -63,20 +63,20 @@ const convertProofAndVkToHex = (proof, vk) => {
     vkHex: convertedVk,
   };
 };
-// POST - Submissão da prova
+// POST - Proof submission
 app.post("/", async (req, res) => {
   try {
-    console.log("📩 Recebi a requisição para submeter prova...");
+    console.log("📩 Received request to submit proof...");
 
     const { proof, publicInputs, vk } = req.body;
 
     if (!proof || !publicInputs || !vk) {
       return res.status(400).json({
-        error: "Campos obrigatórios ausentes: proof, publicInputs, vk",
+        error: "Missing required fields: proof, publicInputs, vk",
       });
     }
 
-    // Convertendo proof e vk para Uint8Array
+    // Converting proof and vk to Uint8Array
     const proofUint8Array = new Uint8Array(Object.values(proof));
     const vkUint8Array = new Uint8Array(Object.values(vk));
 
@@ -84,20 +84,20 @@ app.post("/", async (req, res) => {
     console.log("vkArray", vkUint8Array);
     console.log("publicInputs", publicInputs);
 
-    // Carrega o circuito do disco
+    // Load circuit from disk
     const circuitPath = path.join(__dirname, "../public/circuit.json");
     const circuit = JSON.parse(fs.readFileSync(circuitPath, "utf-8"));
     const backend = new UltraPlonkBackend(circuit.bytecode);
 
-    console.log("Verificando prova...");
+    console.log("Verifying proof...");
     const result = await backend.verifyProof({
       proof,
       publicInputs: [publicInputs],
     });
-    console.log("Resultado da verificação: ", result);
+    console.log("Verification result: ", result);
 
     if (result === false) {
-      return res.status(400).json({ error: "Falha na verificação da prova" });
+      return res.status(400).json({ error: "Proof verification failed" });
     }
 
     const { proofHex, vkHex } = convertProofAndVkToHex(
@@ -108,23 +108,23 @@ app.post("/", async (req, res) => {
     const response = await submitProofToZkVerify(proofHex, publicInputs, vkHex);
 
     return res.status(200).json({
-      message: "Prova enviada com sucesso",
+      message: "Proof submitted successfully",
       response,
     });
   } catch (err) {
-    console.error(`❌ Erro ao submeter prova: ${err.message}`);
+    console.error(`❌ Error submitting proof: ${err.message}`);
     console.error(err);
     return res.status(500).json({
-      error: "Falha ao submeter prova",
+      error: "Failed to submit proof",
       details: err.message,
     });
   }
 });
 
-// Inicia o servidor
+// Start server
 app.listen(port, () => {
   console.log(
-    `🚀 Servidor de verificação de provas ZK rodando em http://localhost:${port}`
+    `🚀 ZK proof verification server running at http://localhost:${port}`
   );
 });
 

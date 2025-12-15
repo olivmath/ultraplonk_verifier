@@ -101,6 +101,6 @@ try {
     statement = eventData.statement;
   });
 } catch (err) {
-  console.error(`❌ Erro ao submeter prova: ${err.message}`);
+  console.error(`❌ Error submitting proof: ${err.message}`);
   console.error(err);
 }

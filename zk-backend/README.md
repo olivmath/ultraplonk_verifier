@@ -1,58 +1,58 @@
 # zk-backend
 
-Este projeto fornece uma interface para geração de provas zk-SNARK usando o UltraPlonk. Você pode gerar provas e chaves de verificação usando dois métodos diferentes: via CLI ou via JavaScript.
+This project provides an interface for generating zk-SNARK proofs using UltraPlonk. You can generate proofs and verification keys using two different methods: via CLI or via JavaScript.
 
-## Gerando Provas via CLI
+## Generating Proofs via CLI
 
-Siga os passos abaixo para gerar provas usando a interface de linha de comando:
+Follow the steps below to generate proofs using the command line:
 
-1. Compile o circuito:
+1. Compile the circuit:
 
 ```bash
 nargo compile
 ```
 
-2. Execute o circuito para gerar o witness:
+2. Execute the circuit to generate the witness:
 
 ```bash
 nargo execute
 ```
 
-3. Gere a prova usando o backend:
+3. Generate the proof using the backend:
 
 ```bash
 bb prove -b ./target/circuit.json -w ./target/circuit.gz -o ./target/bin/proof.bin
 ```
 
-4. Gere a chave de verificação:
+4. Generate the verification key:
 
 ```bash
 bb write_vk -b ./target/circuit.json -o ./target/bin/vk.bin
 ```
 
-5. Converta a prova para o formato hex:
+5. Convert the proof to hex format:
 
 ```bash
 noir-cli proof-data -n 1 --input-proof ./target/bin/proof.bin --output-proof ./target/hex/proof.hex --output-pubs ./target/hex/pub.hex
 ```
 
-6. Converta a chave de verificação para o formato hex:
+6. Convert the verification key to hex format:
 
 ```bash
 noir-cli key --input ./target/bin/vk.bin --output ./target/hex/vk.hex
 ```
 
-## Gerando Provas via JavaScript
+## Generating Proofs via JavaScript
 
-Alternativamente, você pode gerar provas usando a API JavaScript. Aqui está como fazer:
+Alternatively, you can generate proofs using the JavaScript API. Here’s how:
 
-1. Compile o circuito (este passo ainda requer CLI):
+1. Compile the circuit (this step still requires CLI):
 
 ```bash
 nargo compile
 ```
 
-2. Execute o circuito para gerar o witness:
+2. Execute the circuit to generate the witness:
 
 ```javascript
 const { witness } = await noir.execute({
@@ -61,29 +61,29 @@ const { witness } = await noir.execute({
 });
 ```
 
-3. Gere a prova e os inputs públicos:
+3. Generate the proof and public inputs:
 
 ```javascript
 const { proof, publicInputs } = await backend.generateProof(witness);
 ```
 
-4. Obtenha a chave de verificação:
+4. Obtain the verification key:
 
 ```javascript
 const vk = await backend.getVerificationKey();
 ```
 
-## Estrutura de Diretórios
+## Directory Structure
 
 ```
 ./target/
-  ├── circuit.json     # Circuito compilado
-  ├── circuit.gz       # Witness gerado
+  ├── circuit.json     # Compiled circuit
+  ├── circuit.gz       # Generated witness
   └── bin/
-      ├── proof.bin    # Prova binária
-      └── vk.bin       # Chave de verificação binária
+      ├── proof.bin    # Proof (binary)
+      └── vk.bin       # Verification key (binary)
 ./target/hex/
-  ├── proof.hex       # Prova em formato hex
-  ├── pub.hex         # Inputs públicos em formato hex
-  └── vk.hex          # Chave de verificação em formato hex
+  ├── proof.hex       # Proof in hex format
+  ├── pub.hex         # Public inputs in hex format
+  └── vk.hex          # Verification key in hex format
 ```

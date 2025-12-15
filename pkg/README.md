@@ -66,7 +66,7 @@ Apply in your flow:
 // POST
 app.post("/", async (req, res) => {
   // 1. Receive proof, public inputs and vk
-  // 2. Convertendo proof e vk para Uint8Array
+  // 2. Converting proof and vk to Uint8Array
   // 3. Load ZK circuit
   // 4. Instantiate UltraPlonkBackend from @aztec/bb.js;
   // 5. Verify proofs + public inputs locally with UltraPlonkBackend
@@ -102,5 +102,5 @@ app.post("/", async (req, res) => {
 ### FRONTEND SIDE:
 
 ```
-Comingo soon
+Coming soon
 ```
